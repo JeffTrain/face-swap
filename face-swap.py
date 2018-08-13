@@ -1,23 +1,11 @@
 #! /usr/bin/env python
+import dlib
 
+import os
 import sys
 
 import numpy as np
 import cv2
-
-
-# Read points from text file
-def readPoints(path):
-    # Create an array of points.
-    points = [];
-
-    # Read points
-    with open(path) as file:
-        for line in file:
-            x, y = line.split()
-            points.append((int(x), int(y)))
-
-    return points
 
 
 # Apply affine transform calculated using srcTri and dstTri to src and
@@ -123,6 +111,31 @@ def warpTriangle(img1, img2, t1, t2):
     img2[r2[1]:r2[1] + r2[3], r2[0]:r2[0] + r2[2]] = img2[r2[1]:r2[1] + r2[3], r2[0]:r2[0] + r2[2]] + img2Rect
 
 
+current_directory = os.path.dirname(os.path.realpath(__file__))
+landmark_file_name = 'shape_predictor_68_face_landmarks.dat'
+landmark_file_full_path = os.path.realpath(os.path.join(current_directory, './' + landmark_file_name))
+
+face_detector = dlib.get_frontal_face_detector()
+predictor = dlib.shape_predictor(landmark_file_full_path)
+
+
+def shape_to_np(shape):
+    coords = []
+    for i in range(0, 68):
+        coords.append((shape.part(i).x, shape.part(i).y))
+    return coords
+
+
+def readLandmarkPoints(img):
+    scale = 200 / min(img.shape[0], img.shape[1])
+    thumb = cv2.resize(img, None, fx=scale, fy=scale, interpolation=cv2.INTER_AREA)
+    gray = cv2.cvtColor(thumb, cv2.COLOR_BGR2GRAY)
+    face_rects = face_detector(gray, 1)
+    for i, rect in enumerate(face_rects):
+        shape = predictor(gray, face_rects[i])
+        return shape_to_np(shape)
+
+
 if __name__ == '__main__':
 
     # Make sure OpenCV is version 3.0 or above
@@ -141,8 +154,8 @@ if __name__ == '__main__':
     img1Warped = np.copy(img2);
 
     # Read array of corresponding points
-    points1 = readPoints(filename1 + '.txt')
-    points2 = readPoints(filename2 + '.txt')
+    points1 = readLandmarkPoints(img1)
+    points2 = readLandmarkPoints(img2)
 
     # Find convex hull
     hull1 = []
