@@ -119,10 +119,10 @@ face_detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(landmark_file_full_path)
 
 
-def shape_to_np(shape):
+def shape_to_np(shape, scale):
     coords = []
     for i in range(0, 68):
-        coords.append((shape.part(i).x, shape.part(i).y))
+        coords.append((int(shape.part(i).x / scale), int(shape.part(i).y / scale)))
     return coords
 
 
@@ -133,7 +133,7 @@ def readLandmarkPoints(img):
     face_rects = face_detector(gray, 1)
     for i, rect in enumerate(face_rects):
         shape = predictor(gray, face_rects[i])
-        return shape_to_np(shape)
+        return shape_to_np(shape, scale)
 
 
 if __name__ == '__main__':
