@@ -204,6 +204,8 @@ if __name__ == '__main__':
     # Clone seamlessly.
     output = cv2.seamlessClone(np.uint8(img1Warped), img2, mask, center, cv2.NORMAL_CLONE)
 
+    cv2.imwrite('result.jpg', output)
+
     cv2.imshow("Face Swapped", output)
     cv2.waitKey(0)
 
