@@ -127,7 +127,7 @@ def shape_to_np(shape, scale):
 
 
 def readLandmarkPoints(img):
-    scale = 200 / min(img.shape[0], img.shape[1])
+    scale = 200.0 / min(img.shape[0], img.shape[1])
     thumb = cv2.resize(img, None, fx=scale, fy=scale, interpolation=cv2.INTER_AREA)
     gray = cv2.cvtColor(thumb, cv2.COLOR_BGR2GRAY)
     face_rects = face_detector(gray, 1)
