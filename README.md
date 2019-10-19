@@ -1,5 +1,6 @@
-换脸程序
-====
+# face-swap
+
+> 换脸程序
 
 ## 准备
 
@@ -14,12 +15,17 @@ sudo apt install cmake
 ```bash
 git clone https://github.com/JeffTrain/face-swap
 cd face-swap
-pip install -r requirements
+pip install -r requirements.txt
 ```
 
 ## 使用
 ```bash
 python face-swap.py ted_cruz.jpg donald_trump.jpg
+```
+
+## 测试
+```bash
+sh test.sh
 ```
 
 ## 效果
@@ -28,3 +34,13 @@ python face-swap.py ted_cruz.jpg donald_trump.jpg
 |源照片|目标照片|结果照片|
 |-----:|-------:|-------:|
 |![特德·克鲁斯](./ted_cruz.jpg)|![唐纳德·特朗普](./donald_trump.jpg)|![结果照片](./result.jpg)|
+|![65680534-b7c82780-e089-11e9-8079-f926cbe05eff](./tests/65680534-b7c82780-e089-11e9-8079-f926cbe05eff/65680534-b7c82780-e089-11e9-8079-f926cbe05eff.jpeg)|![唐纳德·特朗普](./donald_trump.jpg)|![结果照片](./tests/65680534-b7c82780-e089-11e9-8079-f926cbe05eff/result.jpg)|
+
+
+## 测试矩阵
+
+|环境|Python 版本|结果|
+|---:|---:|---:|
+|Windows|2.7|通过|
+|Windows WSL|2.7|通过|
+

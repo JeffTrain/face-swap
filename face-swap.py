@@ -145,13 +145,14 @@ if __name__ == '__main__':
         print >> sys.stderr, 'ERROR: Script needs OpenCV 3.0 or higher'
         sys.exit(1)
 
+    print(sys.argv)
     # Read images
-    filename1 = 'ted_cruz.jpg'
-    filename2 = 'donald_trump.jpg'
+    filename1 = sys.argv[1]
+    filename2 = sys.argv[2]
 
-    img1 = cv2.imread(filename1);
-    img2 = cv2.imread(filename2);
-    img1Warped = np.copy(img2);
+    img1 = cv2.imread(filename1)
+    img2 = cv2.imread(filename2)
+    img1Warped = np.copy(img2)
 
     # Read array of corresponding points
     points1 = readLandmarkPoints(img1)
