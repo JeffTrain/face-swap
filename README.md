@@ -6,9 +6,17 @@
 
 由于后面需要安装 `python dlib` 包，所以需要先确定 `CMake` 已经安装：
 
+### Ubuntu 
+
 ```bash
 sudo apt update
 sudo apt install cmake
+```
+
+### Mac OSX
+
+```bash
+brew install cmake
 ```
 
 ## 安装
