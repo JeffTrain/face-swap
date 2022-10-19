@@ -51,4 +51,4 @@ sh test.sh
 |---:|---:|---:|
 |Windows|2.7|通过|
 |Windows WSL|2.7|通过|
-
+ |Mac OSX | 3.9.12 | 通过 |
