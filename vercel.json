@@ -1,0 +1,8 @@
+{
+  "builds": [
+    {
+      "src": "./hello.py",
+      "use": "@vercel/python"
+    }
+  ]
+}

@@ -139,7 +139,7 @@ def readLandmarkPoints(img):
 if __name__ == '__main__':
 
     # Make sure OpenCV is version 3.0 or above
-    (major_ver, minor_ver, subminor_ver) = (cv2.__version__).split('.')
+    (major_ver, minor_ver, subminor_ver) = cv2.__version__.split('.')
 
     if int(major_ver) < 3:
         print >> sys.stderr, 'ERROR: Script needs OpenCV 3.0 or higher'
@@ -200,7 +200,7 @@ if __name__ == '__main__':
 
     r = cv2.boundingRect(np.float32([hull2]))
 
-    center = ((r[0] + int(r[2] / 2), r[1] + int(r[3] / 2)))
+    center = (r[0] + int(r[2] / 2), r[1] + int(r[3] / 2))
 
     # Clone seamlessly.
     output = cv2.seamlessClone(np.uint8(img1Warped), img2, mask, center, cv2.NORMAL_CLONE)
