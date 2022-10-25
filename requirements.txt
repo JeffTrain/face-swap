@@ -3,3 +3,4 @@ scipy
 opencv-python
 dlib
 Flask==2.2.2
+flasgger

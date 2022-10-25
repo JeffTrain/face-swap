@@ -55,6 +55,10 @@ sh test.sh
 
 ## 服务器
 
+### 本地运行
+
 ```shell
+pip install -r requirements.txt
 python -m flask --app hello run
+open http://localhost:5000/apidocs
 ```
