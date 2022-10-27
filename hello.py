@@ -1,4 +1,9 @@
-from flask import Flask, request
+import io
+from io import BufferedReader
+
+import cv2
+import numpy as np
+from flask import Flask, request, send_file
 from flasgger import Swagger
 
 app = Flask(__name__)
@@ -71,4 +76,6 @@ def swap():
     if not (image2 and allowed_file(image2.filename)):
         return "image2 file format not supported"
 
-    return "Success"
+    image1bytes = np.fromfile(image1, np.uint8)
+
+    return send_file(io.BytesIO(image1bytes), mimetype='image/png')
