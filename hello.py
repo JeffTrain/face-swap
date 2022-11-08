@@ -1,10 +1,13 @@
-import io
-from io import BufferedReader
+from io import BytesIO
 
 import cv2
+from PIL import Image
 import numpy as np
 from flask import Flask, request, send_file
 from flasgger import Swagger
+from numpy import dtype
+
+from face_swaps.face_swap import swap_faces
 
 app = Flask(__name__)
 swagger = Swagger(app)
@@ -76,6 +79,14 @@ def swap():
     if not (image2 and allowed_file(image2.filename)):
         return "image2 file format not supported"
 
-    image1bytes = np.fromfile(image1, np.uint8)
+    print("starting to swapping!")
+    output = swap_faces(np.array(Image.open(image1)),
+                        np.array(Image.open(image2)))
+    print("swapped!")
 
-    return send_file(io.BytesIO(image1bytes), mimetype='image/png')
+    image_io = BytesIO()
+    res = Image.fromarray(output)
+    res.save(image_io, 'JPEG')
+    image_io.seek(0)
+
+    return send_file(image_io, mimetype='image/png')

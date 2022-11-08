@@ -28,7 +28,7 @@ pip install -r requirements.txt
 
 ## 使用
 ```bash
-python face-swap.py ted_cruz.jpg donald_trump.jpg
+python face_swap.py ted_cruz.jpg donald_trump.jpg
 ```
 
 ## 测试
@@ -58,6 +58,8 @@ sh test.sh
 ### 本地运行
 
 ```shell
+. venv/bin/activate
+
 pip install -r requirements.txt
 python -m flask --app hello run
 open http://localhost:5000/apidocs
