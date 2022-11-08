@@ -1,6 +1,7 @@
 numpy
 scipy
 opencv-python
+cmake
 dlib
 Flask==2.2.2
 flasgger

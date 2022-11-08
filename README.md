@@ -64,3 +64,11 @@ pip install -r requirements.txt
 python -m flask --app hello run
 open http://localhost:5000/apidocs
 ```
+
+### docker 方式运行
+
+```shell
+docker build --tag face-swap .
+docker run -d -p 5001:5000 face-swap
+open http://localhost:5001/apidocs/
+```

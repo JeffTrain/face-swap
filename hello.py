@@ -90,3 +90,7 @@ def swap():
     image_io.seek(0)
 
     return send_file(image_io, mimetype='image/png')
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
