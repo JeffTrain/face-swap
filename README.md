@@ -80,3 +80,7 @@ docker build --tag face-swap .
 docker run -d -p 5001:5000 face-swap
 open http://localhost:5001/apidocs/
 ```
+
+## Star History
+
+![https://api.star-history.com/svg?repos=jefftrain/face-swap&type=Date](https://api.star-history.com/svg?repos=jefftrain/face-swap&type=Date)
