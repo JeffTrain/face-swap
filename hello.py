@@ -1,11 +1,9 @@
 from io import BytesIO
 
-import cv2
 from PIL import Image
 import numpy as np
 from flask import Flask, request, send_file
 from flasgger import Swagger
-from numpy import dtype
 
 from face_swaps.face_swap import swap_faces
 
