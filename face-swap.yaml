@@ -12,7 +12,7 @@ spec:
       properties:
         image: jefftian/face-swap:latest
         ports:
-          - port: 3000
+          - port: 5000
             expose: true
       traits:
         - type: napptive-ingress # a napptive-ingress trait to get a public endpoint
