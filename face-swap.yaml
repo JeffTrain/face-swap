@@ -1,0 +1,22 @@
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: face-swap
+  annotations: # include optional annotations and/or labels.
+    version: v1.0.0
+    description: "face-swap"
+spec:
+  components:
+    - name: face-swap
+      type: webservice
+      properties:
+        image: jefftian/face-swap:latest
+        ports:
+          - port: 3000
+            expose: true
+      traits:
+        - type: napptive-ingress # a napptive-ingress trait to get a public endpoint
+          properties:
+            name: face-swap
+            port: 5000
+            path: /
