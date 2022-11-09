@@ -1,44 +1,53 @@
-import cv2
-import dlib
-import os.path
+from tkinter import Label, filedialog, Tk, Button
 
-video_capture = cv2.VideoCapture(0)
-face_detector = dlib.get_frontal_face_detector()
+import numpy as np
+from PIL import ImageTk, Image
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-landmark_file_path = os.path.realpath(os.path.join(dir_path, './face_swaps/shape_predictor_68_face_landmarks.dat'))
-predictor = dlib.shape_predictor(landmark_file_path)
+from face_swaps.face_detect import face_marked
 
 
-def rect_to_bounding_box(face_rect):
-    x = face_rect.left()
-    y = face_rect.top()
-    w = face_rect.right() - x
-    h = face_rect.bottom() - y
+def open_img():
+    # Select the Imagename  from a folder
+    x = openfilename()
 
-    return x, y, w, h
+    # opens the image
+    img = Image.open(x)
+
+    img = Image.fromarray(np.uint8(face_marked(np.array(img)))).convert('RGB')
+
+    # resize the image and apply a high-quality down sampling filter
+    img = img.resize((250, 250), Image.ANTIALIAS)
+
+    # PhotoImage class is used to add image to widgets, icons etc
+    img = ImageTk.PhotoImage(img)
+
+    # create a label
+    panel = Label(root, image=img)
+
+    # set the image as img
+    panel.image = img
+    panel.grid(row=2)
 
 
-def trace_face(frm):
-    scale = 200 / min(frm.shape[0], frm.shape[1])
-    thumb = cv2.resize(frm, None, fx=scale, fy=scale, interpolation=cv2.INTER_AREA)
-    gray = cv2.cvtColor(thumb, cv2.COLOR_BGR2GRAY)
-    faces = face_detector(gray, 1)
-
-    for i, face_rect in enumerate(faces):
-        (x, y, w, h) = rect_to_bounding_box(face_rect)
-        cv2.rectangle(gray, (x, y), (x + w, y + h), (0, 255, 0), 2)
-
-    return gray
+def openfilename():
+    # open file dialog box to select image
+    # The dialogue box has a title "Open"
+    filename = filedialog.askopenfilename(title='"pen')
+    return filename
 
 
-while True:
-    ret, frame = video_capture.read()
-    face_trace_frame = trace_face(frame)
-    cv2.imshow('Video', face_trace_frame)
+# Create a window
+root = Tk()
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+# Set Title as Image Loader
+root.title("Image Loader")
 
-video_capture.release()
-cv2.destroyAllWindows()
+# Set the resolution of window
+root.geometry("550x300+300+150")
+
+# Allow Window to be resizable
+root.resizable(width=True, height=True)
+
+# Create a button and place it into the window using grid layout
+Button(root, text='open image', command=open_img).grid(row=1, columnspan=4)
+root.mainloop()

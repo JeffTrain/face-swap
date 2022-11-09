@@ -19,6 +19,7 @@ sudo apt install cmake
 
 ```bash
 brew install cmake
+brew install python-tk
 ```
 
 ### 安装
