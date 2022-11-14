@@ -6,3 +6,5 @@ dlib
 Flask==2.2.2
 flasgger
 Pillow
+face_recognition
+imutils
