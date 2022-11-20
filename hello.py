@@ -1,6 +1,6 @@
 from io import BytesIO
 
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 from flask import Flask, request, send_file
 from flasgger import Swagger
@@ -87,6 +87,33 @@ def swap():
     res.save(image_io, 'JPEG')
     image_io.seek(0)
 
+    return send_file(image_io, mimetype='image/png')
+
+
+@app.route("/text2img", methods=['GET'])
+def text2img():
+    """Convert text to image
+    ---
+    parameters:
+        - name: text
+          required: true
+          in: query
+          type: string
+    responses:
+        200:
+            description: success response
+    """
+    text = request.args.get('text')
+    if text is None:
+        return "No text"
+
+    im = Image.new('RGB', (100, 30), color=(73, 109, 137))
+    draw = ImageDraw.Draw(im)
+    text = request.args.get('text')
+    draw.text((10, 10), text, fill=(255, 255, 0))
+    image_io = BytesIO()
+    im.save(image_io, 'JPEG')
+    image_io.seek(0)
     return send_file(image_io, mimetype='image/png')
 
 
