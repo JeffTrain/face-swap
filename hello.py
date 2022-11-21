@@ -1,4 +1,5 @@
 from io import BytesIO
+from urllib.parse import unquote
 
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
@@ -107,9 +108,12 @@ def text2img():
     if text is None:
         return "No text"
 
-    im = Image.new('RGB', (100, 30), color=(73, 109, 137))
+    text = unquote(text).encode('utf-8')
+
+    print("starting to convert!: ", text)
+
+    im = Image.new('RGB', (1000, 30), color=(73, 109, 137))
     draw = ImageDraw.Draw(im)
-    text = request.args.get('text')
     draw.text((10, 10), text, fill=(255, 255, 0))
     image_io = BytesIO()
     im.save(image_io, 'JPEG')
