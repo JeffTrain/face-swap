@@ -1,15 +1,42 @@
 from io import BytesIO
 from urllib.parse import unquote
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 import numpy as np
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, jsonify
 from flasgger import Swagger
 
 from face_swaps.face_swap import swap_faces
 
+from ariadne import load_schema_from_path, make_executable_schema, \
+    graphql_sync, snake_case_fallback_resolvers, ObjectType
+from ariadne.constants import PLAYGROUND_HTML
+
+type_defs = load_schema_from_path("schema.graphql")
+schema = make_executable_schema(
+    type_defs, snake_case_fallback_resolvers
+)
+
 app = Flask(__name__)
 swagger = Swagger(app)
+
+
+@app.route("/graphql", methods=["GET"])
+def graphql_playground():
+    return PLAYGROUND_HTML, 200
+
+
+@app.route("/graphql", methods=["POST"])
+def graphql_server():
+    data = request.get_json()
+    success, result = graphql_sync(
+        schema,
+        data,
+        context_value=request,
+        debug=app.debug
+    )
+    status_code = 200 if success else 400
+    return jsonify(result), status_code
 
 
 @app.route("/")

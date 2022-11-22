@@ -8,3 +8,4 @@ flasgger
 Pillow
 face_recognition
 imutils
+ariadne
