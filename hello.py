@@ -6,6 +6,7 @@ import numpy as np
 from flask import Flask, request, send_file, jsonify
 from flasgger import Swagger
 
+from api.greeting import greeting_resolver
 from face_swaps.face_swap import swap_faces
 
 from ariadne import load_schema_from_path, make_executable_schema, \
@@ -13,9 +14,12 @@ from ariadne import load_schema_from_path, make_executable_schema, \
 from ariadne.constants import PLAYGROUND_HTML
 from flask_cors import CORS
 
+query = ObjectType("Query")
+query.set_field('greeting', greeting_resolver)
+
 type_defs = load_schema_from_path("schema.graphql")
 schema = make_executable_schema(
-    type_defs, snake_case_fallback_resolvers
+    type_defs, snake_case_fallback_resolvers, query
 )
 
 app = Flask(__name__)
