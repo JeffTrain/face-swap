@@ -3,6 +3,7 @@ from urllib.parse import unquote
 
 from PIL import Image, ImageDraw
 import numpy as np
+from ariadne.contrib.federation import make_federated_schema
 from flask import Flask, request, send_file, jsonify, json
 from flasgger import Swagger
 
@@ -22,7 +23,7 @@ mutation = ObjectType("Mutation")
 mutation.set_field("uploadImage", resolve_upload_image)
 
 type_defs = load_schema_from_path("schema.graphql")
-schema = make_executable_schema(
+schema = make_federated_schema(
     type_defs, snake_case_fallback_resolvers, query, mutation
 )
 
