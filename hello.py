@@ -3,23 +3,27 @@ from urllib.parse import unquote
 
 from PIL import Image, ImageDraw
 import numpy as np
-from flask import Flask, request, send_file, jsonify
+from flask import Flask, request, send_file, jsonify, json
 from flasgger import Swagger
 
 from api.greeting import greeting_resolver
+from api.upload import resolve_upload_image
 from face_swaps.face_swap import swap_faces
 
 from ariadne import load_schema_from_path, make_executable_schema, \
-    graphql_sync, snake_case_fallback_resolvers, ObjectType
+    graphql_sync, snake_case_fallback_resolvers, ObjectType, combine_multipart_data
 from ariadne.constants import PLAYGROUND_HTML
 from flask_cors import CORS
 
 query = ObjectType("Query")
 query.set_field('greeting', greeting_resolver)
 
+mutation = ObjectType("Mutation")
+mutation.set_field("uploadImage", resolve_upload_image)
+
 type_defs = load_schema_from_path("schema.graphql")
 schema = make_executable_schema(
-    type_defs, snake_case_fallback_resolvers, query
+    type_defs, snake_case_fallback_resolvers, query, mutation
 )
 
 app = Flask(__name__)
@@ -34,7 +38,14 @@ def graphql_playground():
 
 @app.route("/graphql", methods=["POST"])
 def graphql_server():
-    data = request.get_json()
+    if request.content_type.startswith("multipart/form-data"):
+        data = combine_multipart_data(
+            json.loads(request.form.get("operations")),
+            json.loads(request.form.get("map")),
+            dict(request.files)
+        )
+    else:
+        data = request.get_json()
     success, result = graphql_sync(
         schema,
         data,

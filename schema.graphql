@@ -1,7 +1,14 @@
+scalar Upload
+
 schema {
     query: Query
+    mutation: Mutation
 }
 
 type Query {
     greeting: String
+}
+
+type Mutation {
+    uploadImage(image1: Upload!, image2: Upload!): String
 }
