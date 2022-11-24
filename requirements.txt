@@ -9,3 +9,4 @@ Pillow
 face_recognition
 imutils
 ariadne
+flask-cors
