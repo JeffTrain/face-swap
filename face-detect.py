@@ -2,8 +2,10 @@ from tkinter import Label, filedialog, Tk, Button
 
 import numpy as np
 from PIL import ImageTk, Image
+from PIL.Image import Resampling
 
 from face_swaps.face_detect import face_marked, face_marked2
+from face_swaps.face_swap import readLandmarkPoints, connectLandmarkPoints, showLandmarkPoints
 
 
 def open_img():
@@ -13,10 +15,14 @@ def open_img():
     # opens the image
     img = Image.open(x)
 
-    img = Image.fromarray(np.uint8(face_marked2(np.array(img)))).convert('RGB')
+    converted_img = np.array(img)
+    showLandmarkPoints(converted_img)
+    face_marked_img = face_marked2(converted_img)
+
+    img = Image.fromarray(np.uint8(face_marked_img)).convert('RGB')
 
     # resize the image and apply a high-quality down sampling filter
-    img = img.resize((250, 250), Image.ANTIALIAS)
+    img = img.resize((250, 250), Resampling.LANCZOS)
 
     # PhotoImage class is used to add image to widgets, icons etc
     img = ImageTk.PhotoImage(img)

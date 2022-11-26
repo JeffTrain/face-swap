@@ -127,7 +127,6 @@ def shape_to_np(shape, scale):
 
 
 def readLandmarkPoints(img):
-    print('img.shape', img.shape)
     scale = 200.0 / min(img.shape[0], img.shape[1])
     thumb = cv2.resize(img, None, fx=scale, fy=scale, interpolation=cv2.INTER_AREA)
     gray = cv2.cvtColor(thumb, cv2.COLOR_BGR2GRAY)
@@ -137,8 +136,19 @@ def readLandmarkPoints(img):
         return shape_to_np(shape, scale)
 
 
+def connectLandmarkPoints(img, points):
+    for point1, point2 in zip(points, points[1:]):
+        cv2.line(img, point1, point2, [0, 255, 0], 2)
+
+
+def showLandmarkPoints(img):
+    points = readLandmarkPoints(img)
+    connectLandmarkPoints(img, points)
+
+
 def swap_faces(img1, img2):
     points1 = readLandmarkPoints(img1)
+    print('points1 = ', points1)
     points2 = readLandmarkPoints(img2)
 
     hull1 = []
