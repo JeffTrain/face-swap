@@ -12,7 +12,7 @@ from api.upload import resolve_upload_image
 from face_swaps.face_swap import swap_faces
 
 from ariadne import load_schema_from_path, make_executable_schema, \
-    graphql_sync, snake_case_fallback_resolvers, ObjectType, combine_multipart_data
+    graphql_sync, snake_case_fallback_resolvers, ObjectType, combine_multipart_data, upload_scalar
 from ariadne.constants import PLAYGROUND_HTML
 from flask_cors import CORS
 
@@ -24,7 +24,7 @@ mutation.set_field("uploadImage", resolve_upload_image)
 
 type_defs = load_schema_from_path("schema.graphql")
 schema = make_federated_schema(
-    type_defs, snake_case_fallback_resolvers, query, mutation
+    type_defs, snake_case_fallback_resolvers, query, mutation, upload_scalar
 )
 
 app = Flask(__name__)

@@ -144,11 +144,12 @@ def connectLandmarkPoints(img, points):
 def showLandmarkPoints(img):
     points = readLandmarkPoints(img)
     connectLandmarkPoints(img, points)
+    hull_index = cv2.convexHull(np.array(points), returnPoints=False)
+    print('hull_index', hull_index)
 
 
 def swap_faces(img1, img2):
     points1 = readLandmarkPoints(img1)
-    print('points1 = ', points1)
     points2 = readLandmarkPoints(img2)
 
     hull1 = []
