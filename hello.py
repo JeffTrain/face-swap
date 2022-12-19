@@ -23,10 +23,9 @@ mutation = ObjectType("Mutation")
 mutation.set_field("uploadImage", resolve_upload_image)
 
 type_defs = load_schema_from_path("schema.graphql")
-federated_schema = make_federated_schema(type_defs)
 
-schema = make_executable_schema(
-    federated_schema, snake_case_fallback_resolvers, query, mutation, upload_scalar
+schema = make_federated_schema(
+    type_defs, snake_case_fallback_resolvers, query, mutation, upload_scalar
 )
 
 app = Flask(__name__)
