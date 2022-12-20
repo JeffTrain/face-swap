@@ -1,20 +1,19 @@
 from io import BytesIO
 from urllib.parse import unquote
 
-from PIL import Image, ImageDraw
 import numpy as np
+from PIL import Image, ImageDraw
+from ariadne import load_schema_from_path, graphql_sync, snake_case_fallback_resolvers, ObjectType, \
+    combine_multipart_data, upload_scalar
+from ariadne.constants import PLAYGROUND_HTML
 from ariadne.contrib.federation import make_federated_schema
-from flask import Flask, request, send_file, jsonify, json
 from flasgger import Swagger
+from flask import Flask, request, send_file, jsonify, json
+from flask_cors import CORS
 
 from api.greeting import greeting_resolver
 from api.upload import resolve_upload_image
 from face_swaps.face_swap import swap_faces
-
-from ariadne import load_schema_from_path, make_executable_schema, \
-    graphql_sync, snake_case_fallback_resolvers, ObjectType, combine_multipart_data, upload_scalar
-from ariadne.constants import PLAYGROUND_HTML
-from flask_cors import CORS
 
 query = ObjectType("Query")
 query.set_field('greeting', greeting_resolver)

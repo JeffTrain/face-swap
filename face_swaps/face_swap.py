@@ -152,6 +152,9 @@ def swap_faces(img1, img2):
     points1 = readLandmarkPoints(img1)
     points2 = readLandmarkPoints(img2)
 
+    print('points1', points1)
+    print('points2', points2)
+
     hull1 = []
     hull2 = []
 
