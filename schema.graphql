@@ -10,5 +10,10 @@ type Query {
 }
 
 type Mutation {
-    uploadImage(image1: Upload!, image2: Upload!): String
+    uploadImage(image1: Upload!, image2: Upload!): File
+}
+
+type File {
+    filename: String!
+    data: String!
 }
