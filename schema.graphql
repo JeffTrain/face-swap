@@ -15,5 +15,6 @@ type Mutation {
 
 type File {
     filename: String!
+    mimetype: String!
     data: String!
 }
