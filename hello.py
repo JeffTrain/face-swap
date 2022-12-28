@@ -160,7 +160,14 @@ def landmark():
         return "image is empty"
 
     pprint(image)
-    base64encoded = base64.b64encode(image.read()).decode('utf-8')
+    image_data = image.read()
+    print(image_data)
+    print('base64 decoded: ')
+    print(base64.b64decode(image_data))
+
+    return base64.b64encode(image_data)
+
+    base64encoded = base64.b64encode(image_data).decode('utf-8')
     print(base64encoded)
     return base64encoded
     # return readLandmarkPoints(np.array(Image.open(image)))

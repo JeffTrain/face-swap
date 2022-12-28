@@ -70,7 +70,7 @@ jobs:
       - run: npm i -g k8ss
       - run: echo -e "machine github.com\n  login ${{secrets.GH_TOKEN}}" > ~/.netrc
       - run: git clone https://github.com/Jeff-Tian/k8s-config.git ${HOME}/k8s-config
-      - run: k8ss switch --cluster=okteto --namespace=jeff-tian&&kubectl apply -k k8s&&kubectl rollout restart deploy face-swap
+      - run: k8ss switch --cluster=okteto --namespace=jeff-tian&&kubectl rollout restart deploy face-swap
 
   build:
     runs-on: ubuntu-latest
