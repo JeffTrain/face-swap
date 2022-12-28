@@ -157,9 +157,6 @@ def landmark():
     if image.filename == '':
         return "image is empty"
 
-    if not (image and allowed_file(image.filename)):
-        return "image file format not supported"
-
     return readLandmarkPoints(np.array(Image.open(image)))
 
 
