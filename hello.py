@@ -13,7 +13,7 @@ from flask_cors import CORS
 
 from api.greeting import greeting_resolver
 from api.upload import resolve_upload_image
-from face_swaps.face_swap import swap_faces
+from face_swaps.face_swap import swap_faces, readLandmarkPoints
 
 query = ObjectType("Query")
 query.set_field('greeting', greeting_resolver)
@@ -134,6 +134,33 @@ def swap():
     image_io.seek(0)
 
     return send_file(image_io, mimetype='image/png')
+
+
+@app.route("/landmark", methods=['POST'])
+def landmark():
+    """Upload a photo and get its face landmarks
+    ---
+    parameters:
+        - name: image
+          required: true
+          in: formData
+          type: file
+    responses:
+        200:
+            description: success response
+    """
+    if 'image' not in request.files:
+        return "No image"
+
+    image = request.files['image']
+
+    if image.filename == '':
+        return "image is empty"
+
+    if not (image and allowed_file(image.filename)):
+        return "image file format not supported"
+
+    return readLandmarkPoints(np.array(Image.open(image)))
 
 
 @app.route("/text2img", methods=['GET'])
