@@ -149,6 +149,8 @@ def landmark():
         200:
             description: success response
     """
+    return request.headers.to_wsgi_list()
+
     if 'image' not in request.files:
         return "No image"
 
