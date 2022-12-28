@@ -28,7 +28,7 @@ spec:
         deployedBy: deploy-node-app
     spec:
       containers:
-        - image: jefftian/face-swap
+        - image: jefftian/face-swap:latest
           imagePullPolicy: Always
           name: face-swap
           ports:
