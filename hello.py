@@ -1,4 +1,6 @@
+import base64
 from io import BytesIO
+from pprint import pprint
 from urllib.parse import unquote
 
 import numpy as np
@@ -85,7 +87,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 def allowed_file(filename):
     return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.route("/swap", methods=['POST'])
@@ -149,8 +151,6 @@ def landmark():
         200:
             description: success response
     """
-    return request.headers.to_wsgi_list()
-
     if 'image' not in request.files:
         return "No image"
 
@@ -158,6 +158,10 @@ def landmark():
 
     if image.filename == '':
         return "image is empty"
+
+    pprint(image)
+    base64encoded = base64.b64encode(image.read()).decode('utf-8')
+    print(base64encoded)
 
     return readLandmarkPoints(np.array(Image.open(image)))
 
