@@ -162,8 +162,8 @@ def landmark():
     pprint(image)
     base64encoded = base64.b64encode(image.read()).decode('utf-8')
     print(base64encoded)
-
-    return readLandmarkPoints(np.array(Image.open(image)))
+    return base64encoded
+    # return readLandmarkPoints(np.array(Image.open(image)))
 
 
 @app.route("/text2img", methods=['GET'])
