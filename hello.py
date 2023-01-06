@@ -14,11 +14,13 @@ from flask import Flask, request, send_file, jsonify, json
 from flask_cors import CORS
 
 from api.greeting import greeting_resolver
+from api.video import video_resolver
 from api.upload import resolve_upload_image
 from face_swaps.face_swap import swap_faces, readLandmarkPoints
 
 query = ObjectType("Query")
 query.set_field('greeting', greeting_resolver)
+query.set_field('video', video_resolver)
 
 mutation = ObjectType("Mutation")
 mutation.set_field("uploadImage", resolve_upload_image)

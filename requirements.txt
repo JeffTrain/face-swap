@@ -10,3 +10,9 @@ face_recognition
 imutils
 ariadne
 flask-cors
+requests
+bs4
+lxml
+html5lib
+selenium
+webdriver-manager
