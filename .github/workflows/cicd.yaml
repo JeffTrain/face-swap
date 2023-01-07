@@ -70,11 +70,12 @@ jobs:
       - run: npm i -g k8ss
       - run: echo -e "machine github.com\n  login ${{secrets.GH_TOKEN}}" > ~/.netrc
       - run: git clone https://github.com/Jeff-Tian/k8s-config.git ${HOME}/k8s-config
-      - run: k8ss switch --cluster=okteto --namespace=jeff-tian&&kubectl apply -k k8s&&kubectl rollout restart deploy face-swap
+      - run: k8ss switch --cluster=okteto --namespace=jeff-tian&&kubectl set image deployment face-swap face-swap=jefftian/face-swap:${{ github.head_ref }}.${{ github.sha }}
 
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u "${{secrets.DOCKER_USERNAME}}" --password-stdin
-      - run: sh .travis/ci.sh
+      - run: git_hash=$(git rev-parse --short "$GITHUB_SHA")
+      - run: sh .travis/ci.sh ${{ github.head_ref }}.${{ github.sha }}
