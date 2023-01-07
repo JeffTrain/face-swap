@@ -12,7 +12,7 @@ def video_resolver(obj, info):
     options.headless = True
 
 
-    driver = Chrome(ChromeDriverManager().install(), options=options)
+    driver = Chrome(options=options)
     driver.get('https://www.zhihu.com/question/378598799/answer/1126026947')
 
     try:
