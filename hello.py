@@ -198,7 +198,7 @@ def apply_caching(response):
     then = datetime.now() + timedelta(weeks=54)
 
     response.headers.add('Expires', then.strftime("%a, %d %b %Y %H:%M:%S GMT"))
-    response.headers.add('Cache-Control', 'public,max-age=%d' % int(60 * 60 * 24 * 365))
+    response.headers.add('Cache-Control', 'public,max-age=%d,s-maxage=%d' % (int(60 * 60 * 24 * 365), int(60 * 60 * 24 * 365)))
     return response
 
 
