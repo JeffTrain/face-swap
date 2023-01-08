@@ -10,9 +10,12 @@ from selenium.webdriver.common.by import By
 def video_resolver(obj, info):
     options = ChromeOptions()
     options.headless = True
+    
     options.binary_location = '/usr/bin/google-chrome'
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-extensions')
+    options.add_argument('--disable-dev-shm-usage')        
+
 
     driver = Chrome(ChromeDriverManager().install(), options=options)
     driver.get('https://www.zhihu.com/question/378598799/answer/1126026947')
