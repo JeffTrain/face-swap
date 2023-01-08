@@ -12,6 +12,7 @@ type Query {
 
 type Mutation {
     uploadImage(image1: Upload!, image2: Upload!): File
+    setVideoSrcCache: String
 }
 
 type File {

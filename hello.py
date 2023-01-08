@@ -13,8 +13,9 @@ from flask import Flask, request, send_file, jsonify, json
 from flask_cors import CORS
 
 from api.greeting import greeting_resolver
-from api.video import video_resolver
+from api.video import video_resolver, getVideoSrc, get_video_src_and_set_cache
 from api.upload import resolve_upload_image
+from cache.cache import cache
 from face_swaps.face_swap import swap_faces, readLandmarkPoints
 
 query = ObjectType("Query")
@@ -23,6 +24,7 @@ query.set_field('video', video_resolver)
 
 mutation = ObjectType("Mutation")
 mutation.set_field("uploadImage", resolve_upload_image)
+mutation.set_field("setVideoSrcCache", get_video_src_and_set_cache)
 
 type_defs = load_schema_from_path("schema.graphql")
 
@@ -202,5 +204,10 @@ def apply_caching(response):
     return response
 
 
+cache.init_app(app)
+
+
 if __name__ == '__main__':
+    src = getVideoSrc()
+    cache.set('video_src', src)
     app.run(host='0.0.0.0', port=5000, debug=True)
