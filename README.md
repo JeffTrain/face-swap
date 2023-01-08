@@ -60,8 +60,14 @@ sh test.sh
 
 #### 线上服务（提交代码后自动部署）
 
+##### restful
+
 - Okteto: https://face-swap-jeff-tian.cloud.okteto.net/apidocs
 - Napptive: https://face-swap-cctsq03nniljeo1bj0ng.apps.playground.napptive.dev/apidocs
+
+##### GraphQL
+- Okteto: https://face-swap-jeff-tian.cloud.okteto.net/graphql
+- Napptive: https://face-swap-cctsq03nniljeo1bj0ng.apps.playground.napptive.dev/graphql
 
 #### 本地运行服务
 
@@ -69,16 +75,18 @@ sh test.sh
 . venv/bin/activate
 
 pip install -r requirements.txt
-python -m flask --app hello run
+python -m flask --app hello run --host 0.0.0.0 --port 5001
 open http://localhost:5000/apidocs
+open http://localhost:5001/graphql
 ```
 
 #### docker 方式运行
 
 ```shell
-docker build --tag face-swap .
-docker run -d -p 5001:5000 face-swap
+docker build --tag face-swap:test .
+docker run -d -p 5001:5000 face-swap:test
 open http://localhost:5001/apidocs/
+open http://localhost:5001/graphql
 ```
 
 ## Star History

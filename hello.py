@@ -1,6 +1,5 @@
-import base64
+from datetime import datetime, timedelta
 from io import BytesIO
-from pprint import pprint
 from urllib.parse import unquote
 
 import numpy as np
@@ -192,6 +191,15 @@ def text2img():
     im.save(image_io, 'JPEG')
     image_io.seek(0)
     return send_file(image_io, mimetype='image/png')
+
+
+@app.after_request
+def apply_caching(response):
+    then = datetime.now() + timedelta(weeks=54)
+
+    response.headers.add('Expires', then.strftime("%a, %d %b %Y %H:%M:%S GMT"))
+    response.headers.add('Cache-Control', 'public,max-age=%d' % int(60 * 60 * 24 * 365))
+    return response
 
 
 if __name__ == '__main__':

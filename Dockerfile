@@ -15,4 +15,6 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 
+ENV IN_DOCKER=true
+
 CMD [ "python3", "-m" , "flask", "--app", "hello", "run", "--host", "0.0.0.0"]
