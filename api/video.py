@@ -12,8 +12,14 @@ def video_resolver(obj, info):
 
 
 def get_video_src_and_set_cache(obj, info):
+    return cache_job()
+
+
+def cache_job():
+    print('cache_job...')
     video_src = getVideoSrc()
     cache.set('video_src', video_src)
+    print('cache_job done = ', video_src)
     return video_src
 
 

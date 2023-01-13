@@ -17,3 +17,4 @@ html5lib
 selenium
 webdriver-manager
 Flask-Caching
+apscheduler

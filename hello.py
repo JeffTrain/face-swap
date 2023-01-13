@@ -13,10 +13,12 @@ from flask import Flask, request, send_file, jsonify, json
 from flask_cors import CORS
 
 from api.greeting import greeting_resolver
-from api.video import video_resolver, getVideoSrc, get_video_src_and_set_cache
+from api.video import video_resolver, getVideoSrc, get_video_src_and_set_cache, cache_job
 from api.upload import resolve_upload_image
 from cache.cache import cache
 from face_swaps.face_swap import swap_faces, readLandmarkPoints
+from apscheduler.schedulers.background import BackgroundScheduler
+
 
 query = ObjectType("Query")
 query.set_field('greeting', greeting_resolver)
@@ -205,6 +207,11 @@ def apply_caching(response):
 
 
 cache.init_app(app)
+
+
+scheduler = BackgroundScheduler()
+job = scheduler.add_job(func=cache_job, trigger="interval", hours=3)
+scheduler.start()
 
 
 if __name__ == '__main__':
