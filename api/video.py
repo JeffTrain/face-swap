@@ -1,4 +1,6 @@
 from pprint import pprint
+from threading import Thread
+
 from selenium.webdriver import Chrome, ChromeOptions
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
@@ -8,7 +10,12 @@ from cache.cache import cache
 
 
 def video_resolver(obj, info):
-    return cache.get('video_src')
+    src = cache.get('video_src')
+
+    if src is None:
+        Thread(target=cache_job).start()
+
+    return src
 
 
 def get_video_src_and_set_cache(obj, info):
