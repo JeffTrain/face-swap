@@ -8,7 +8,7 @@ flasgger
 Pillow
 face_recognition
 imutils
-ariadne=0.4.0
+ariadne==0.4.0
 flask-cors
 requests
 bs4
