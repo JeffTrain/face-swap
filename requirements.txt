@@ -3,7 +3,7 @@ scipy
 opencv-python
 cmake
 dlib
-Flask==2.2.2
+Flask==2.3.2
 flasgger
 Pillow
 face_recognition
